@@ -13,12 +13,10 @@
     "@tscircuit/create-snippet-url": "^0.0.6",
     "@tscircuit/eval": "^0.0.87",
     "@tscircuit/prompt-benchmarks": "^0.0.33",
-    "@tscircuit/runframe": "file:.yalc/@tscircuit/runframe",
+    "@tscircuit/runframe": "^0.0.148",
     "class-variance-authority": "^0.7.1",
     "jscad-fiber": "^0.0.77",
-    "next": "14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "14.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

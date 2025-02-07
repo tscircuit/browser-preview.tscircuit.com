@@ -3,9 +3,9 @@ export const getIndexPageHtml = () => {
   <!DOCTYPE html>
   <html>
     <body>
-      <h1>3d-viewer-svg.tscircuit.com</h1>
+      <h1>code-runner-preview.tscircuit.com</h1>
       <p>
-        Turn your tscircuit code into 3d models automatically.
+        Turn your tscircuit code into a preview automatically.
       </p>
       <p>
         To do this programmatically see the <a href="https://github.com/tscircuit/create-snippet-url">create-snippet-url</a> package.
