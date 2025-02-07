@@ -6,7 +6,7 @@
     "start": "next dev",
     "format": "biome format --write .",
     "build": "next build",
-    "prepare": "bun run scripts/copy-standalone-preview.ts"
+    "scripts": "bun run scripts/copy-standalone-preview.ts"
   },
   "dependencies": {
     "@tscircuit/core": "^0.0.301",
