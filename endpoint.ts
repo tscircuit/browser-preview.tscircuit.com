@@ -2,6 +2,8 @@ import { CircuitRunner } from "@tscircuit/eval/eval"
 import { getErrorSvg } from "./getErrorSvg"
 import { getIndexPageHtml } from "./get-index-page-html"
 import { getHtmlForGeneratedUrlPage } from "./get-html-for-generated-url-page"
+import { getUncompressedSnippetString } from "@tscircuit/create-snippet-url"
+import { circuitJsonPreviewHtml } from "./circuit-json-preview-html"
 
 type Result<T, E = Error> = [T, null] | [null, E]
 
@@ -11,11 +13,28 @@ async function unwrapPromise<T>(promise: Promise<T>): Promise<Result<T>> {
     .catch<[null, Error]>((err) => [null, err])
 }
 
+function unwrapSyncError<T>(fn: () => T): Result<T> {
+  try {
+    return [fn(), null]
+  } catch (err) {
+    return [null, err as Error]
+  }
+}
+
+
 export default async (req: Request) => {
   const url = new URL(req.url.replace("/api", "/"))
+  const host = `${url.protocol}//${url.host}`
 
   if (url.pathname === "/health") {
     return new Response(JSON.stringify({ ok: true }))
+  }
+
+  if (url.pathname === "/generate_url") {
+    const code = url.searchParams.get("code")
+    return new Response(await getHtmlForGeneratedUrlPage(code!, host), {
+      headers: { "Content-Type": "text/html" },
+    })
   }
 
   if (url.pathname === "/" && !url.searchParams.get("code")) {
@@ -24,20 +43,26 @@ export default async (req: Request) => {
     })
   }
 
-  if (url.pathname === "/start_runframe" && url.searchParams.get("code")) {
-    const userCode = url.searchParams.get("code")
-    if (!userCode) {
-      return new Response(
-        JSON.stringify({ ok: false, error: "No code parameter provided" }),
-        { status: 400 },
-      )
-    }
-    const worker = new CircuitRunner()
+  const compressedCode = url.searchParams.get("code")
+  if (!compressedCode) {
+    return new Response(
+      JSON.stringify({ ok: false, error: "No code parameter provided" }),
+      { status: 400 },
+    )
+  }
+  const [userCode, userCodeErr] = unwrapSyncError(() =>
+    getUncompressedSnippetString(compressedCode),
+  )
+  if (userCodeErr) {
+    return errorResponse(userCodeErr)
+  }
 
-    const [, executeError] = await unwrapPromise(
-      worker.executeWithFsMap({
-        fsMap: {
-          "entrypoint.tsx": `
+  const worker = new CircuitRunner()
+
+  const [, executeError] = await unwrapPromise(
+    worker.executeWithFsMap({
+      fsMap: {
+        "entrypoint.tsx": `
           import * as UserComponents from "./UserCode.tsx";
           
           const hasBoard = ${userCode.includes("<board").toString()};
@@ -55,26 +80,25 @@ export default async (req: Request) => {
             )
           );
         `,
-          "UserCode.tsx": userCode,
-        },
-        entrypoint: "entrypoint.tsx",
-      }),
-    )
+        "UserCode.tsx": userCode,
+      },
+      entrypoint: "entrypoint.tsx",
+    }),
+  )
 
-    if (executeError) return errorResponse(executeError)
+  if (executeError) return errorResponse(executeError)
 
-    const [, renderError] = await unwrapPromise(worker.renderUntilSettled())
-    if (renderError) return errorResponse(renderError)
+  const [, renderError] = await unwrapPromise(worker.renderUntilSettled())
+  if (renderError) return errorResponse(renderError)
 
-    const [circuitJson, jsonError] = await unwrapPromise(worker.getCircuitJson())
-    if (jsonError) return errorResponse(jsonError)
+  const [circuitJson, jsonError] = await unwrapPromise(worker.getCircuitJson())
+  if (jsonError) return errorResponse(jsonError)
 
-    if (circuitJson) {
-      const html = await getHtmlForGeneratedUrlPage(circuitJson as any)
-      return new Response(html, {
-        headers: { "Content-Type": "text/html" },
-      })
-    }
+  if (circuitJson) {
+    const html = await circuitJsonPreviewHtml(circuitJson as any)
+    return new Response(html, {
+      headers: { "Content-Type": "text/html" },
+    })
   }
 }
 
