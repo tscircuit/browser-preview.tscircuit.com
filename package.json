@@ -13,7 +13,7 @@
     "@tscircuit/create-snippet-url": "^0.0.6",
     "@tscircuit/eval": "^0.0.87",
     "@tscircuit/prompt-benchmarks": "^0.0.33",
-    "@tscircuit/runframe": "^0.0.148",
+    "@tscircuit/runframe": "^0.0.149",
     "class-variance-authority": "^0.7.1",
     "jscad-fiber": "^0.0.77",
     "next": "14.1.0"
