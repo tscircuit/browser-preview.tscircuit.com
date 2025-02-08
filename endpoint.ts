@@ -1,9 +1,9 @@
-import { CircuitRunner } from "@tscircuit/eval/eval"
-import { getErrorSvg } from "./getErrorSvg"
-import { getIndexPageHtml } from "./get-index-page-html"
-import { getHtmlForGeneratedUrlPage } from "./get-html-for-generated-url-page"
 import { getUncompressedSnippetString } from "@tscircuit/create-snippet-url"
+import { CircuitRunner } from "@tscircuit/eval/eval"
 import { circuitJsonPreviewHtml } from "./circuit-json-preview-html"
+import { getHtmlForGeneratedUrlPage } from "./get-html-for-generated-url-page"
+import { getIndexPageHtml } from "./get-index-page-html"
+import { getErrorSvg } from "./getErrorSvg"
 
 type Result<T, E = Error> = [T, null] | [null, E]
 
@@ -43,15 +43,22 @@ export default async (req: Request) => {
     })
   }
 
-  const compressedCode = url.searchParams.get("code")
-  if (!compressedCode) {
+  const rawCode = url.searchParams.get("code")
+  if (!rawCode) {
     return new Response(
       JSON.stringify({ ok: false, error: "No code parameter provided" }),
       { status: 400 },
     )
   }
+
+  const gzipPrefix = "data:application/gzip;base64,"
+
+  const normalizedCode = rawCode.startsWith(gzipPrefix)
+    ? rawCode
+    : gzipPrefix + rawCode
+
   const [userCode, userCodeErr] = unwrapSyncError(() =>
-    getUncompressedSnippetString(compressedCode),
+    getUncompressedSnippetString(normalizedCode),
   )
   if (userCodeErr) {
     return errorResponse(userCodeErr)
