@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tscircuit/core": "^0.0.301",
-    "@tscircuit/create-snippet-url": "^0.0.6",
+    "@tscircuit/create-snippet-url": "^0.0.7",
     "@tscircuit/eval": "^0.0.87",
     "@tscircuit/prompt-benchmarks": "^0.0.33",
     "@tscircuit/runframe": "^0.0.149",
