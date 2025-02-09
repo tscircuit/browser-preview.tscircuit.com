@@ -3,7 +3,7 @@ export const getIndexPageHtml = () => {
   <!DOCTYPE html>
   <html>
     <body>
-      <h1>code-runner-preview.tscircuit.com</h1>
+      <h1>browser-preview.tscircuit.com</h1>
       <p>
         Turn your tscircuit code into a preview automatically.
       </p>
