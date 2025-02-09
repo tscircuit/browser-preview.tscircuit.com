@@ -9,6 +9,7 @@ export const getIndexPageHtml = () => {
       </p>
       <p>
         To do this programmatically see the <a href="https://github.com/tscircuit/create-snippet-url">create-snippet-url</a> package.
+        <button onclick="loadExample()" style="margin-left: 10px;">paste example</button>
       </p>
       <form action="/generate_url" method="GET">
         <textarea 
@@ -34,6 +35,32 @@ export const getIndexPageHtml = () => {
           font-size: 16px;
         }
       </style>
+      <script>
+        function loadExample() {
+          const exampleCode = \`export default () => (
+  <board width="10mm" height="10mm">
+    <resistor
+      resistance="2k"
+      footprint="0402"
+      name="R1"
+      schX={4}
+      pcbX={3}
+    />
+    <capacitor
+      capacitance="4000pF"
+      footprint="0402"
+      name="C1"
+      schX={-3}
+      pcbX={-3}
+    />
+    <trace from=".R1 > .pin1" to=".C1 > .pin1" />
+  </board>
+);
+\`;
+
+          document.getElementById('code').value = exampleCode;
+        }
+      </script>
     </body>
   </html>
   `
