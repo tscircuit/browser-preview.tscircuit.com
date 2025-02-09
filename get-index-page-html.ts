@@ -9,7 +9,7 @@ export const getIndexPageHtml = () => {
       </p>
       <p>
         To do this programmatically see the <a href="https://github.com/tscircuit/create-snippet-url">create-snippet-url</a> package.
-        <button onclick="loadExample()" style="margin-left: 10px;">open example</button>
+        <button onclick="loadExample()" style="margin-left: 10px;">paste example</button>
       </p>
       <form action="/generate_url" method="GET">
         <textarea 
