@@ -5,8 +5,9 @@
   "scripts": {
     "start": "next dev",
     "format": "biome format --write .",
-    "build": "next build",
-    "scripts": "bun run scripts/copy-standalone-preview.ts"
+    "build:next": "next build",
+    "build": "bun run scripts/copy-standalone-preview.ts && bun run build:next",
+    "vercel-build": "bun run build"
   },
   "dependencies": {
     "@tscircuit/core": "^0.0.301",
