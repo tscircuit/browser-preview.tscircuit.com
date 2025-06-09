@@ -15,6 +15,7 @@
     "@tscircuit/eval": "^0.0.226",
     "@tscircuit/prompt-benchmarks": "^0.0.44",
     "@tscircuit/runframe": "^0.0.562",
+    "@tscircuit/schematic-match-adapt": "^0.0.16",
     "class-variance-authority": "^0.7.1",
     "jscad-fiber": "^0.0.77",
     "next": "14.1.0"
