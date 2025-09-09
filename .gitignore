@@ -43,3 +43,6 @@ next-env.d.ts
 .vscode
 
 public/standalone-preview.min.js
+
+.yalc
+yalc.lock
