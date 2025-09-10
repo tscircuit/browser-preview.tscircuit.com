@@ -5,7 +5,7 @@
       "name": "code-runner-preview",
       "dependencies": {
         "@tscircuit/create-snippet-url": "^0.0.8",
-        "@tscircuit/eval": "^0.0.315",
+        "@tscircuit/eval": "^0.0.317",
         "@tscircuit/prompt-benchmarks": "^0.0.44",
         "class-variance-authority": "^0.7.1",
         "jscad-fiber": "^0.0.77",
@@ -210,7 +210,7 @@
 
     "@tscircuit/create-snippet-url": ["@tscircuit/create-snippet-url@0.0.8", "", { "dependencies": { "fflate": "^0.8.2" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-VMixgwQRsOXlQGwVh2RZIFLLtsn8YWl2Bht61T26MHNM71A1Wzo5qGZtqcdbVkFnvlA42KmdVVjvxYDvEyWdJw=="],
 
-    "@tscircuit/eval": ["@tscircuit/eval@0.0.315", "", { "peerDependencies": { "@tscircuit/core": "*", "circuit-json": "*", "typescript": "^5.0.0", "zod": "3" } }, "sha512-yj520338limArqXALabK8bZ69fPrJd1WJYVD8s97QOQGU+MO4DSVrc6zgIJqoOr56tATwenCTgA16xdj5JyiFA=="],
+    "@tscircuit/eval": ["@tscircuit/eval@0.0.317", "", { "peerDependencies": { "@tscircuit/core": "*", "circuit-json": "*", "typescript": "^5.0.0", "zod": "3" } }, "sha512-g5zA8uTyVwcOwdSSuvA1/YWdcaK+v96feyKXmaBdWCjlqGUq5PHpRN7BudW+x4MXpuXT2b95vzqd9LIiiV46tg=="],
 
     "@tscircuit/featured-snippets": ["@tscircuit/featured-snippets@0.0.1", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-SNUbCQmyaAaWq7DqqDbYlZkYttbfaObtp5rOheZvlJ2TGYvooECFpB8SzNo06bqKGoIwNjgaAGUTB2DcxdX7ow=="],
 
