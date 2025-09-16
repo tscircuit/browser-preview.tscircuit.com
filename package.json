@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tscircuit/create-snippet-url": "^0.0.8",
-    "@tscircuit/eval": "^0.0.324",
+    "@tscircuit/eval": "^0.0.325",
     "@tscircuit/prompt-benchmarks": "^0.0.44",
     "class-variance-authority": "^0.7.1",
     "jscad-fiber": "^0.0.77",
