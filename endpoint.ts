@@ -1,6 +1,9 @@
 import { getUncompressedSnippetString } from "@tscircuit/create-snippet-url"
 import { CircuitRunner } from "@tscircuit/eval/eval"
-import { circuitJsonPreviewHtml } from "./circuit-json-preview-html"
+import {
+  circuitJsonPreviewHtml,
+  resolveViewToActiveTab,
+} from "./circuit-json-preview-html"
 import { getHtmlForGeneratedUrlPage } from "./get-html-for-generated-url-page"
 import { getIndexPageHtml } from "./get-index-page-html"
 import { getErrorSvg } from "./getErrorSvg"
@@ -20,7 +23,6 @@ function unwrapSyncError<T>(fn: () => T): Result<T> {
     return [null, err as Error]
   }
 }
-
 
 export default async (req: Request) => {
   const url = new URL(req.url.replace("/api", "/"))
@@ -99,7 +101,11 @@ export default async (req: Request) => {
   if (jsonError) return errorResponse(jsonError)
 
   if (circuitJson) {
-    const html = await circuitJsonPreviewHtml(circuitJson as any)
+    const view =
+      url.searchParams.get("view") ?? url.searchParams.get("default_active_tab")
+    const html = await circuitJsonPreviewHtml(circuitJson as any, {
+      defaultActiveTab: resolveViewToActiveTab(view),
+    })
     return new Response(html, {
       headers: { "Content-Type": "text/html" },
     })
