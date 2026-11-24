@@ -21,9 +21,13 @@ function unwrapSyncError<T>(fn: () => T): Result<T> {
   }
 }
 
-
 export default async (req: Request) => {
-  const url = new URL(req.url.replace("/api", "/"))
+  const url = new URL(req.url)
+  if (url.pathname === "/api") {
+    url.pathname = "/"
+  } else if (url.pathname.startsWith("/api/")) {
+    url.pathname = url.pathname.slice(4)
+  }
   const host = `${url.protocol}//${url.host}`
 
   if (url.pathname === "/health") {
