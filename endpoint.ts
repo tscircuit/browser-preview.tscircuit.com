@@ -21,7 +21,6 @@ function unwrapSyncError<T>(fn: () => T): Result<T> {
   }
 }
 
-
 export default async (req: Request) => {
   const url = new URL(req.url.replace("/api", "/"))
   const host = `${url.protocol}//${url.host}`
@@ -31,8 +30,9 @@ export default async (req: Request) => {
   }
 
   if (url.pathname === "/generate_url") {
-    const code = url.searchParams.get("code")
-    return new Response(await getHtmlForGeneratedUrlPage(code!, host), {
+    const code = url.searchParams.get("code") ?? ""
+    const view = url.searchParams.get("view")
+    return new Response(await getHtmlForGeneratedUrlPage(code, host, view), {
       headers: { "Content-Type": "text/html" },
     })
   }
@@ -99,7 +99,9 @@ export default async (req: Request) => {
   if (jsonError) return errorResponse(jsonError)
 
   if (circuitJson) {
-    const html = await circuitJsonPreviewHtml(circuitJson as any)
+    const view =
+      url.searchParams.get("view") ?? url.searchParams.get("svg_type")
+    const html = circuitJsonPreviewHtml(circuitJson, { view })
     return new Response(html, {
       headers: { "Content-Type": "text/html" },
     })
